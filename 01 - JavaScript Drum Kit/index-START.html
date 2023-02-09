@@ -59,10 +59,10 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-  window.addEventListener('keydown', function(e) {
+  function playSound(e) {
     const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
     const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
-    console.log(key)
+    
     if(!audio) return; // stop the function if there is no audio element
 
     audio.currentTime = 0; // rewinds to the start
@@ -71,10 +71,18 @@
     key.classList.add('playing'); // play transition 
     //key.classList.remove('playing'); // ways to remove and toggle adding classes
     //key.classList.toggle('playing');
-    
-  });
+  }
+
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return; // 
+    this.classList.remove('playing');
+  }
+
+
   const keys = document.querySelectorAll('.key');
-  
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound); 
+
 </script>
 
 
